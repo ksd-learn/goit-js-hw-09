@@ -10,6 +10,7 @@ const textSec = document.querySelector('[data-seconds]');
 
 const options = {
     enableTime: true,
+    clickOpens: true,
     time_24hr: true,
     defaultDate: new Date(),
     minuteIncrement: 1,
@@ -43,12 +44,15 @@ function convertMs(ms) {
 
 function timerOn() {
     btnStart.removeEventListener("click", timerOn);
-
+    options.clickOpens = false;
+    flatpickr("#datetime-picker", options);
     const timer =setInterval(() => {
         displayTimer(convertMs(differenceDate));
         differenceDate -= 1000;
         if (differenceDate < 0) {
-            clearInterval(timer)
+            clearInterval(timer);
+            options.clickOpens = true;
+            flatpickr("#datetime-picker", options)
         }
     }, 1000)
 }
